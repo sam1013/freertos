@@ -30,7 +30,13 @@
 
 /* This file redefines API functions to be called through a wrapper macro, but
 only for ports that are using the MPU. */
-#ifdef portUSING_MPU_WRAPPERS
+#ifndef portUSING_MPU_WRAPPERS
+
+	#define portUSING_MPU_WRAPPERS 0
+
+#endif /* portUSING_MPU_WRAPPERS */
+
+#if ( portUSING_MPU_WRAPPERS == 1 )
 
 	/* MPU_WRAPPERS_INCLUDED_FROM_API_FILE will be defined when this file is
 	included from queue.c or task.c to prevent it from having an effect within
@@ -115,6 +121,13 @@ only for ports that are using the MPU. */
 			#define pcQueueGetName							MPU_pcQueueGetName
 		#endif
 
+		/* Map port API functions to the MPU equivalents. */
+		#define pvPortMalloc								MPU_pvPortMalloc
+		#define vPortFree										MPU_vPortFree
+		#define vPortInitialiseBlocks				MPU_vPortInitialiseBlocks
+		#define xPortGetFreeHeapSize				MPU_xPortGetFreeHeapSize
+
+	
 		/* Map standard timer.h API functions to the MPU equivalents. */
 		#define xTimerCreate							MPU_xTimerCreate
 		#define xTimerCreateStatic						MPU_xTimerCreateStatic

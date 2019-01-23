@@ -532,7 +532,7 @@ static void prvAddCurrentTaskToDelayedList( TickType_t xTicksToWait, const BaseT
  * Set xNextTaskUnblockTime to the time at which the next Blocked state task
  * will exit the Blocked state.
  */
-static void prvResetNextTaskUnblockTime( void );
+static void prvResetNextTaskUnblockTime( void ); //TODO Sammey: shouldn't this be PRIVILEGED_FUNCTION? It uses PRIVILEGED_DATA.
 
 #if ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) )
 

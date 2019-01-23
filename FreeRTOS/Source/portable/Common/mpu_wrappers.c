@@ -53,6 +53,8 @@ task.h is included from an application file. */
  */
 extern BaseType_t xPortRaisePrivilege( void );
 
+#if ( portUSING_MPU_WRAPPERS == 1 )
+
 /*-----------------------------------------------------------*/
 
 #if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
@@ -632,15 +634,17 @@ BaseType_t xReturn;
 }
 /*-----------------------------------------------------------*/
 
-void* MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore )
-{
-BaseType_t xRunningPrivileged = xPortRaisePrivilege();
-void * xReturn;
+#if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+	void* MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore )
+	{
+	BaseType_t xRunningPrivileged = xPortRaisePrivilege();
+	void * xReturn;
 
-	xReturn = ( void * ) xQueueGetMutexHolder( xSemaphore );
-	vPortResetPrivilege( xRunningPrivileged );
-	return xReturn;
-}
+		xReturn = ( void * ) xQueueGetMutexHolder( xSemaphore );
+		vPortResetPrivilege( xRunningPrivileged );
+		return xReturn;
+	}
+#endif
 /*-----------------------------------------------------------*/
 
 #if( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
@@ -1288,3 +1292,5 @@ BaseType_t xRunningPrivileged = xPortRaisePrivilege();
 #if configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS == 1
 	#include "application_defined_privileged_functions.h"
 #endif
+
+#endif /* portUSING_MPU_WRAPPERS */

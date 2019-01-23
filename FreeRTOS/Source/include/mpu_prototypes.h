@@ -86,6 +86,7 @@ BaseType_t MPU_xQueueGenericSend( QueueHandle_t xQueue, const void * const pvIte
 BaseType_t MPU_xQueueReceive( QueueHandle_t xQueue, void * const pvBuffer, TickType_t xTicksToWait );
 BaseType_t MPU_xQueuePeek( QueueHandle_t xQueue, void * const pvBuffer, TickType_t xTicksToWait );
 BaseType_t MPU_xQueueSemaphoreTake( QueueHandle_t xQueue, TickType_t xTicksToWait );
+BaseType_t MPU_xQueuePeekFromISR( QueueHandle_t pxQueue, void * const pvBuffer );
 UBaseType_t MPU_uxQueueMessagesWaiting( const QueueHandle_t xQueue );
 UBaseType_t MPU_uxQueueSpacesAvailable( const QueueHandle_t xQueue );
 void MPU_vQueueDelete( QueueHandle_t xQueue );
@@ -109,6 +110,12 @@ BaseType_t MPU_xQueueGenericReset( QueueHandle_t xQueue, BaseType_t xNewQueue );
 void MPU_vQueueSetQueueNumber( QueueHandle_t xQueue, UBaseType_t uxQueueNumber );
 UBaseType_t MPU_uxQueueGetQueueNumber( QueueHandle_t xQueue );
 uint8_t MPU_ucQueueGetQueueType( QueueHandle_t xQueue );
+
+/* MPU versions of port API functions. */
+void *MPU_pvPortMalloc( size_t xSize );
+void MPU_vPortFree( void *pv );
+void MPU_vPortInitialiseBlocks( void );
+size_t MPU_xPortGetFreeHeapSize( void );
 
 /* MPU versions of timers.h API functions. */
 TimerHandle_t MPU_xTimerCreate( const char * const pcTimerName, const TickType_t xTimerPeriodInTicks, const UBaseType_t uxAutoReload, void * const pvTimerID, TimerCallbackFunction_t pxCallbackFunction );
